@@ -1,0 +1,1065 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{commath}
+\usepackage{graphicx}
+
+\title{Linear Algebra Course Notes}
+\author{David Yang}
+\date{Swarthmore College, Fall 2020}
+
+\begin{document}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\setlength{\parindent}{0pt}
+
+    \maketitle
+    \section{Chapter 1: Vectors, Matrices, and Linear Systems}
+    
+    \textbf{\underline{Preliminary Definitions}}
+
+
+    \begin{definition} 
+    
+    The \textbf{dot product} is defined as follows: for $\vec{v} = [v_1, v_2, ..., v_n], \vec{w} = [w_1, w_2, ... , w_n] \in \mathbb{R}^n, $ \\
+    
+    \centerline{$\vec{v} \cdot \vec{w} = \sum\limits_{i=1}^n v_iw_i$} 
+
+    Equivalently, $\vec{v} \cdot \vec{w} = \norm{\vec{v}} \norm{\vec{w}} \cos{\theta}$ where $\theta$ is the angle between $\vec{v}, \vec{w}.$
+    \end{definition}
+    
+    
+    \begin{theorem}[Properties of Dot Product]
+    Let $\vec{u}, \vec{v}, \vec{w} \in \mathbb{R}^n$ and $r \in \mathbb{R}.$ Then 
+    (1: Commutativity) $\vec{v} \cdot \vec{w} = \vec{w} \cdot \vec{v}$\\
+    (2: Distributivity) $\vec{u} \cdot (\vec{v} + \vec{w}) = \vec{u} \cdot \vec{v} + \vec{u} \cdot \vec{w}$\\
+    (3: Homogeneity) $r(\vec{v} \cdot \vec{w}) = (r\vec{v}) \cdot \vec{w} = \vec{v} \cdot (r\vec{w})$\\
+    (4: Positivity) $\vec{v} \cdot \vec{v} \geq 0$ and $\vec{v} \cdot \vec{v} = 0 \iff \vec{v} = 0$
+    \end{theorem}
+    
+    \begin{definition}
+    The \textbf{norm/magnitude/length} of a vector $\vec{v}$ is $\sqrt{\vec{v} \cdot \vec{v}} = \norm{\vec{v}} = \sqrt{v_1^2 + v_2^2 + ... v_n^2} $ for $\vec{v} = [v_1, v_2, ... , v_n].$ \\ \\
+    \end{definition}    
+
+    \textbf{\underline{Dot Product Theorems}}
+    
+    \begin{definition}
+    Two vectors $\vec{v}, \vec{w} \in \mathbb{R}^n$ are \textbf{orthogonal} (aka perpendicular) if $\vec{v} \cdot \vec{w} = 0.$
+    \end{definition}
+
+    \begin{theorem}[Schwarz Inequality/Cauchy-Schwarz Inequality]
+    $|\vec{v} \cdot \vec{w}| \leq \norm{\vec{v}} \norm{\vec{w}}$
+    \end{theorem}
+    
+    \begin{theorem}[Triangle Inequality]
+    $\norm{\vec{v}} + \norm{\vec{w}} \geq \norm{\vec{v} + \vec{w}}$
+    \end{theorem} 
+    
+    \newpage
+    
+    \textbf{\underline{Matrices and Their Algebra}}
+    \begin{definition}
+    A \textbf{m x n matrix} is an array of m rows, n columns. \\
+    $M_{m,n} (\mathbb{R})$ is our notation for the set of all m x n matrices whose entities are real numbers. \\
+    
+    To multiply matrices, $(AB)_{ij} = \sum\limits_{l=1}^n a_{il}b_{lj} $
+    \end{definition}
+    
+    \begin{definition}
+    Let $A = [a_{ij}] = M_{m, n}.$ We define the \textbf{transpose} of A to be the matrix whose (ij)th entry is the (ji)th entry of A. The rows of A become the columns of $A^{T}.$
+    \end{definition}
+    
+    \begin{definition}
+    $I_n \in M_{nn},$ also called the \textbf{Identity Matrix}, is $
+ \begin{bmatrix} 
+    1 & \dots & 0 \\
+    \vdots & \ddots & \\
+    0 &        & 1 
+    \end{bmatrix}$
+    \end{definition}
+    
+    \begin{theorem}[Associated Matrix Properties]
+    $\boldsymbol{\boldsymbol{A} + \boldsymbol{B} = \boldsymbol{B} + \boldsymbol{A}, \boldsymbol{AB} \neq \boldsymbol{BA}, \boldsymbol{IA = AI = A}.} $
+    \\ \underline{Scalar Multiplication Properties} \\
+    $r\boldsymbol{(A+B)} = r\boldsymbol{A} + r\boldsymbol{B} \\ (r+s)\boldsymbol{A} = r\boldsymbol{A} + s\boldsymbol{A} \\    r(s\boldsymbol{A}) = (rs)\boldsymbol{A}\\
+    1\boldsymbol{A} = \boldsymbol{A}$ \\
+    
+    \underline{Transpose Properties} \\
+    $(\boldsymbol{A}^T)^T = \boldsymbol{A}$ \\
+    $(\boldsymbol{A} + \boldsymbol{B})^T = \boldsymbol{A}^T + \boldsymbol{B}^T$ \\
+    $(\boldsymbol{AB})^T = \boldsymbol{B}^T\boldsymbol{A}^T$ \\
+    \end{theorem} 
+    
+    \textbf{\underline{Solving Systems of Linear Equations}}
+    
+    \begin{definition}
+    A vector $\vec{s} \in \mathbb{R}^n$ is a solution to $\boldsymbol{A}\vec{x} = \vec{b}$ if $\boldsymbol{A}\vec{s} = \vec{b}.$ There are 3 flavors of solutions: unique, infinite, or no solutions to a given equation of this form. \\
+    
+    Linear systems $\boldsymbol{A}\vec{x} = \vec{b}$ that have one or more solutions are called \textbf{consistent systems} while linear systems that have no solutions are called \textbf{inconsistent systems}. \\
+    
+    A key observation is that the equation $\boldsymbol{A}\vec{x} = \vec{b}$ is consistent if and only if $\vec{b}$ is in the $\textbf{span}$, or the set of all linear combinations, of the columns of $\boldsymbol{A}$.
+    \end{definition}
+    
+    \begin{definition}
+    A matrix $\boldsymbol{M}$ is in \textbf{row-echelon form} if: \\
+    (1) any rows of $\boldsymbol{M}$ without pivots are below all rows of $\boldsymbol{M}$ with pivots\\ (2) a pivot in row $i$ of $\boldsymbol{M}$ is in a column to the right of a pivot in row $i-1$ of $\boldsymbol{M}$.
+    \end{definition} 
+    
+    \begin{definition}[\textbf{Elementary Row Operations} of a Matrix]
+    
+    (1) interchange two rows\\
+    (2) multiply all entries of a row by the same nonzero scalar \\
+    (3) replace a row by the sum of itself and a multiple of another row (i.e. add a multiple of one row to another) \\
+    
+    \textbf{Gaussian Elimination} is the process of using elementary row operations to transform a matrix into row-echelon form. Every matrix can be transformed into row echelon form with elementary row operations. 
+    \end{definition}
+    
+    \begin{definition}[More on Elementary Row Operations] 
+    A matrix $\boldsymbol{M}$ is \textbf{row equivalent} to a matrix $\boldsymbol{N}$ if you can get from $\boldsymbol{M}$ to $\boldsymbol{N}$ by performing a sequence of elementary row operations. This is denoted $\boldsymbol{M} \sim \boldsymbol{N}.$
+    \end{definition}
+    
+    \begin{theorem}
+    If $[\boldsymbol{A} | \vec{b}] \sim [\boldsymbol{H} | \vec{c}]$ then the solutions to the system $\boldsymbol{A}\vec{x} = \vec{b}$ are the same solutions to $\boldsymbol{H}\vec{x} = \vec{c}.$
+    \end{theorem}
+    
+    \begin{definition}
+    A matrix that is the result of performing one elementary row operation to an identity matrix $\boldsymbol{I}_m$ is called an \textbf{elementary matrix}.
+    \end{definition}
+    
+    \begin{definition}
+    A matrix is in \textbf{reduced row-echelon form (rref)} if it is in row echelon form AND every pivot is 1 and the pivot is the only nonzero entry in its column. \\
+    
+    The process of putting a matrix into rref is called the \textbf{Gauss-Jordan Method}.
+    \end{definition}
+    
+    \begin{theorem}
+    Let $\boldsymbol{A}$ be a m x n matrix and $\boldsymbol{E}$ be an elementary matrix of size m x m. Then $\boldsymbol{EA}$ is the matrix obtained by transforming $\boldsymbol{A}$ by the same elementary row operations that was needed to create $\boldsymbol{E}.$ 
+    \end{theorem}
+    
+    \begin{theorem}[Solutions of $\boldsymbol{A}\vec{x} = \vec{b}$]
+    Let $\boldsymbol{A}\vec{x} = \vec{b}$ be a linear system with $[\boldsymbol{A} | \vec{b}] \sim [\boldsymbol{H} | \vec{c}]$ where $\boldsymbol{H}$ is in row-echelon form. Then \\
+    (1) If $[\boldsymbol{H} | \vec{c}]$ has a pivot in the last column then  $\boldsymbol{A}\vec{x} = \vec{b}$ is inconsistent. \\
+    (2) If $[\boldsymbol{H} | \vec{c}]$ does not have a pivot in the last column then (a) if every column of $\boldsymbol{H}$ has a pivot, then $\boldsymbol{A}\vec{x} = \vec{b}$ has a \textbf{unique solution}, (b) if some columns of $\boldsymbol{H}$ have no pivot, then $\boldsymbol{A}\vec{x} = \vec{b}$ has an \textbf{infinite number of solutions.}
+
+    \end{theorem}
+    
+    \newpage
+    
+\textbf{\underline{Inverses of Square Matrices}}
+
+    \begin{definition}
+    A $n x n$ matrix $\boldsymbol{A}$ is \textbf{invertible} (or nonsingular) if there is a $n x n$ matrix $\boldsymbol{C}$ such that $\boldsymbol{CA = AC = I}.$ We say that $\boldsymbol{C}$ is the \textbf{inverse} of $\boldsymbol{A},$ denoted as $\boldsymbol{A^{-1}}$,
+    \end{definition}
+    
+    \begin{theorem}[Unique Inverse]
+    If $\boldsymbol{A}$ has an inverse, it is unique.
+    \end{theorem}
+    
+    \begin{theorem}
+    Let $\boldsymbol{A, B} \in M_n$ be invertible matrices. Then $\boldsymbol{AB}$ is invertible and $\boldsymbol{AB^{-1} = B^{-1}{A^{-1}}}.$ 
+    \end{theorem}
+    
+    \begin{theorem}
+    Let $\boldsymbol{A, C} \in M_n$. Then if $\boldsymbol{AC = I}$ then $\boldsymbol{CA = I}.$
+    \end{theorem}    
+    
+    \begin{lemma}
+    Let $\boldsymbol{A} \in M_n.$ If $\boldsymbol{A}\vec{x} = \vec{b}$ is consistent for any choice of $\vec{b} \in \mathbb{R}^n,$ then $\boldsymbol{A} \sim \boldsymbol{I}.$
+    \end{lemma}
+
+    \begin{corollary}
+    If $\boldsymbol{A} \sim \boldsymbol{I},$ then $\boldsymbol{A}$ is invertible.
+    \end{corollary}
+
+    \begin{theorem}
+    If $\boldsymbol{A}$ is invertible, then $\boldsymbol{A}\vec{x} = \vec{b}$ is consistent for all $\vec{b}.$ \\ 
+    \end{theorem}
+    
+    
+    \begin{theorem}[TFAE]
+    Let $\boldsymbol{A} \in M_n.$ The following are equivalent: \\
+    (1) $\boldsymbol{A}$ is invertible. \\
+    (2) $\boldsymbol{A} \sim \boldsymbol{I}$ \\
+    (3) $\boldsymbol{A}\vec{x} = \vec{b}$ is consistent for all $\vec{b} \in \mathbb{R}^n$. \\
+    (4) The span of the columns of $\boldsymbol{A}$ is $\mathbb{R}^n$ / the column space of A is $\mathbb{R}^n$ / the columns form a basis for $\mathbb{R}^n.$ \\
+    (5) $\boldsymbol{A}$ is a product of elementary matrices. \\
+    (6) rank($\boldsymbol{A}$) = $n$. \\
+    (7) nullity($\boldsymbol{A}$) = 0.\\
+    (8) $\det(\boldsymbol{A}) = 0,$ \\
+    (9) No eigenvalue of $\boldsymbol{A}$ is $0$.
+    \end{theorem}
+
+\newpage
+
+\textbf{\underline{Homogeneous Linear Systems}}
+\begin{definition}
+A \textbf{homogeneous linear system} is a linear system of the form $\boldsymbol{A}\vec{x} = 0.$ These are always consistent (as a solution is the zero vector).
+\end{definition}
+
+\begin{theorem}
+If $\vec{u}, \vec{v}$ are solutions to a homogeneous linear system, so is $r\vec{u} + s\vec{v}$ for any $r, s \in \mathbb{R}.$
+\end{theorem}    
+
+\begin{theorem}
+Let $\vec{p}$ be a particular solution to $\boldsymbol{A}\vec{x} = \vec{b}$ and $\vec{s}$ be a solution to $\boldsymbol{A}\vec{x} = 0.$ Then \\
+(1) $\vec{p} + \vec{s}$ is a solution to $\boldsymbol{A}\vec{x} = \vec{b}.$ \\
+(2) Every solution set to $\boldsymbol{A}\vec{x} = \vec{b}$ has the form $\vec{p} + \vec{h}$ where $\boldsymbol{A}\vec{h} = 0.$ \\ \\
+\end{theorem}
+
+\textbf{\underline{Subspaces}}
+\begin{definition}
+Let $\boldsymbol{W} \subseteq \mathbb{R}^n.$ We say that $\boldsymbol{W}$ is closed under addition if $\vec{u}, \vec{v} \in \boldsymbol{W}$ then $\vec{u}+\vec{v} \in$ $\boldsymbol{W}$. We say that $\boldsymbol{W}$ is closed under scalar multiplication if $\vec{u} \in \boldsymbol{W}, r \in \mathbb{R}$ then $r\vec{u} \in \boldsymbol{W}.$ 
+\end{definition}
+
+\begin{definition}[Definition of a \textbf{Subspace}]
+Let $\boldsymbol{W} \subseteq \mathbb{R}^n.$ We say that $\boldsymbol{W}$ is a \textbf{subspace} if it is closed under addition and scalar multiplication.
+
+\end{definition}
+
+\begin{definition}[Important Subspaces]
+
+Let $\boldsymbol{A}$ be a m x n matrix. Some important subspaces associated with A. The \textbf{nullspace} of $\boldsymbol{A}$ is the set of solutions $\boldsymbol{A}\vec{x} = \vec{0}.$ The \textbf{row space} of $\boldsymbol{A}$ is the span of the rows of $\boldsymbol{A}.$ The \textbf{column space} of $\boldsymbol{A}$ is the span of columns of $\boldsymbol{A}.$ 
+
+\end{definition}
+
+\begin{definition}[Basis of a Subspace]
+Let $\boldsymbol{W}$ be a subspace of $\mathbb{R}^n.$ A subset $\vec{w}_1, \vec{w}_2, ..., \vec{w}_k$ is a \textbf{basis} for $\boldsymbol{W}$ if for all $\vec{w} \in \boldsymbol{W},$ there are unique scalars $r_1, r_2, ..., r_k$ such that $r_1\vec{w}_{1} + r_2\vec{w}_{2} + ... + r_k\vec{w}_{k} = \vec{w}.$ \\
+
+A couple notes on a basis: \\
+A basis of $\boldsymbol{W}$ is the smallest possible set that generates $\boldsymbol{W}.$ \\
+Let $\boldsymbol{A}$ be a matrix w/ column vectors $\vec{w}_1, \vec{w}_2, ..., \vec{w}_{k}.$ Let $\boldsymbol{W}$ be the column space of $\boldsymbol{A}$. The column vectors form a  basis for $\boldsymbol{W}$ iff $\boldsymbol{A}\vec{x} = \vec{b}$ has a unique solution for all $\vec{b} \in \boldsymbol{W}.$ 
+
+\end{definition}
+
+\begin{theorem}
+$\boldsymbol{A \in M_n}, \boldsymbol{A \sim I} \iff \boldsymbol{A}\vec{x} = \vec{b}$ has a unique solution for all $\vec{b} \in \mathbb{R}^n.$ 
+\end{theorem}
+
+\begin{theorem}
+$\vec{w}_{1}, ..., \vec{w}_{k} \subseteq	\mathbb{R}^n$ is a basis for $\boldsymbol{W} = sp(\vec{w}_{1}, ..., \vec{w}_{k})$ iff $r_1\vec{w}_{1} + r_2\vec{w}_{2} + ... + r_k\vec{w}_{k} = 0 \implies r_1=r_2= ... = r_k=0.$ 
+\end{theorem}
+
+\begin{theorem}
+A homogeneous linear system $\boldsymbol{A}\vec{x} = \vec{0}$ that has fewer equations (rows) than unknowns (columns) has an infinite number of solutions.
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{A}$ be a n x k matrix. TFAE: \\
+(1) The column vectors of $\boldsymbol{A}$ form a basis for the column space of $\boldsymbol{A}.$ \\
+(2) The rref of $\boldsymbol{A}$ is $I_k$ followed by $(n - k)$ rows of zeros.\\
+(3) Each consistent system $\boldsymbol{A}\vec{x} = \vec{b}$ has a unique solution.
+\end{theorem}
+
+\newpage{}
+
+
+
+\section{Chapter 2: Dimension, Rank, and Linear Transformations}
+\textbf{\underline{Independence and Dimension}}
+\begin{definition}
+Let $\{\vec{w}_{1}, ... ,\vec{w}_{k}\} \subseteq \mathbb{R}^n.$ If the only linear combination of these vectors that gives $\vec{0}$ is the trivial one, we say that the set is \textbf{linearly independent}. If there is a nontrivial linear combination, the set is \textbf{linearly dependent}.
+\end{definition}
+
+\begin{theorem}[New Definition of a Basis]
+Let $\boldsymbol{W}$ be a subspace of $\mathbb{R}^n.$ A subset $\{\vec{w}_{1}, ..., \vec{w}_{k}\} \subseteq \boldsymbol{W}$ is a \textbf{basis} for $\boldsymbol{W}$ iff  $\{\vec{w}_{1}, ..., \vec{w}_{k}\}$ is linearly independent and $sp(\vec{w}_{1}, ..., \vec{w}_{k}) = \boldsymbol{W}.$ In other words, a basis of $\boldsymbol{W}$ is a linearly independent, spanning set of $\boldsymbol{W}.$
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{W}$ be a subspace of $\mathbb{R}^n.$ Let $\{\vec{w}_{1}, ..., \vec{w}_{k}\} \subseteq \boldsymbol{W}$ be a spanning set of $\boldsymbol{W}.$ Let ${\vec{v}_{1}, ... \vec{v}_{m}} \subseteq \boldsymbol{W}$ be a linearly independent set. Then $k \geq m.$ \\
+
+In other words, no spanning set has fewer vectors than any linearly independent set.
+\end{theorem}
+
+\begin{corollary}
+Any 2 bases of $\boldsymbol{W}$ have the same size. Similarly, ever basis of $\mathbb{R}^n$ has $n$ vectors.
+\end{corollary}
+
+\begin{definition}
+Let $\boldsymbol{W}$ be a subspace of $\mathbb{R}^n.$ The number of elements in a  basis of $\boldsymbol{W}$ is called the $\textbf{dimension}$ of $\boldsymbol{W}.$ In particular, $\dim(\mathbb{R}^n) = n.$ \\
+
+NOTE: How exactly do we find the basis for $span(\vec{w}_{1}, ..., \vec{w}_{k})$? \\
+(1) Form matrix $\boldsymbol{A}$ whose columns are $\vec{w}_{1}, ..., \vec{w}_{k}.$ \\
+(2) Use Gaussian Elimination on $\boldsymbol{A}$ to transform to $\boldsymbol{H},$ a matrix in rref. \\
+(3) The set $\{\vec{w}_{j}\}$ where the jth column of $\boldsymbol{H}$ has a pivot is a basis for $span(\vec{w}_{1}, ..., \vec{w}_{k})$.
+\end{definition}
+
+\begin{theorem}
+Every subspace of $\mathbb{R}^n$ has a basis, and that basis has no more than $n$ vectors.
+\end{theorem}
+
+\begin{theorem}
+Every linearly independent set in a subspace $\boldsymbol{W} \subseteq \mathbb{R}^n$ can be enlarged (if necessary) to obtain a basis for $\boldsymbol{W}.$
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{W}$ be a subspace of $\mathbb{R}^n$ of $dim(\boldsymbol{W}) = k.$ \\
+(1) every linearly independent set of $k$ vectors in $\boldsymbol{W}$ must span $\boldsymbol{W}.$ \\
+(2) every spanning set of $\boldsymbol{W}$ with $k$ vectors is linearly independent.
+\end{theorem}
+
+\newpage
+\textbf{\underline{Finding Bases of Special Subspaces}} \\ \\
+\textbf{\underline{Nullspaces}} \\
+Every free variable corresponds to an element in the basis. \\
+\underline{Example}: if nullspace(A) = $[2r-s, r, s, 0]$ for $r, s \in \mathbb{R},$ then $[2r-s, r, s, 0] = r[2, 1, 0, 0] + s[-1, 0, 1, 0],$ and the basis is $\{[2, 1, 0, 0], [-1, 0, 1, 0]\}.$ \\
+
+\textbf{\underline{Column Spaces}} \\
+If $\boldsymbol{A} \sim \boldsymbol{H},$ where $\boldsymbol{H}$ is in row echelon form, then the columns of $\boldsymbol{A}$ that correspond to the columns of $\boldsymbol{H}$ with pivots form a basis for the column space.\\ The dimension of the column space is the number of columns in the rref of $\boldsymbol{A}$ with a pivot. \\
+
+\textbf{\underline{Row Spaces}} \\
+If we have already transformed $\boldsymbol{A}$ into row echelon form $\boldsymbol{H}$, we can simply use nonzero rows of $\boldsymbol{H}$ as the basis for the row space of $\boldsymbol{A}.$ \\ \\ \\ 
+
+\textbf{\underline{The Rank of a Matrix}} 
+\begin{theorem}[Dimension of Row and Column Spaces]
+The dimension of the rowspace of $\boldsymbol{A}$ is the same as the dimension of the column space of $\boldsymbol{A}$, i.e. $\dim(rowsp(\boldsymbol{A})) = \dim(colsp(\boldsymbol{A}))$
+\end{theorem}
+
+\begin{definition}
+Let $\boldsymbol{A}$ be a n x n matrix. The $\textbf{rank}$ of $\boldsymbol{A}$ is the dimension of the column and rowspaces of $\boldsymbol{A}.$ The $\textbf{nullity}$ is the dimension of the nullspace of $\boldsymbol{A}.$
+\end{definition}
+
+\begin{theorem}[\textbf{Rank-Nullity Theorem}]
+Let $\boldsymbol{A}$ be a m x n matrix. Then $rank(\boldsymbol{A}) + nullity(\boldsymbol{A}) = n.$ \\ \\ \\
+\end{theorem}
+
+\textbf{\underline{Linear Transformations}} 
+\begin{definition}[Domain and Codomain]
+For $f: X \rightarrow Y,$ X is called the \textbf{domain} of $f$, and Y is called the \textbf{codomain} of $f.$
+\end{definition}
+
+\begin{definition}
+Let $H \subseteq X.$ The $\textbf{image}$ of $H$ under $f$ is the set $\{f(x) \mid h \in H\}.$ This is denoted $f[H]$, or the set of elements in $Y$ that are mapped to when the elements of $H$ are plugged into $f$.
+\end{definition}
+
+\begin{definition}
+$f[X]$ is called the \textbf{range} of $f$ (the set of all elements in $Y$ that are mapped to by $f$).
+\end{definition}
+
+\begin{definition}
+Let $K \subseteq Y.$ The \textbf{preimage} (or \textbf{inverse image}) of $K$ is $\{x \in X \mid f(x) \in K\}$ and is denoted $f^{-1}[K]$ (the set of all elements of $X$ that map to elements of $K$).
+\end{definition}
+
+\begin{definition}
+$T: \mathbb{R}^n \rightarrow \mathbb{R}^n$ is a \textbf{linear transformation} if for all $\vec{u}, \vec{v} \in \mathbb{R}^n , r \in \mathbb{R},$ \\
+(1) $T(\vec{u} + \vec{v}) = T(\vec{u}) + T(\vec{v})$ (preserves structure of addition) \\
+(2) $T(r\vec{u}) = rT(\vec{u})$ (preserves structure of scalar multiplication)
+\end{definition}
+
+\begin{theorem}
+$f: \mathbb{R} \rightarrow \mathbb{R} $ is a linear transformation iff $f(x) = kx$ where $k \in \mathbb{R}.$
+\end{theorem}
+
+\begin{theorem}
+Let $B = \{\vec{b}_{1}, ... \vec{b}_{n}\}$ be a basis for $\mathbb{R}^n.$ Let $\vec{v} \in \mathbb{R}^n.$ Then $T(\vec{v}) = r_1T(\vec{b}_{1}) + ... + r_nT(\vec{b}_{n})$ where $r_1, ... , r_n$ are the unique scalars such that $\vec{v} = r_1\vec{b}_{1} + ... +r_n\vec{b}_{n}.$ This means $T(\vec{v})$ is determined by $T(\vec{b}_{1}), ... , T(\vec{b}_{n}).$
+
+\end{theorem}
+
+
+\begin{corollary}
+Let $S, T$ be linear transformations from $\mathbb{R}^n$ to $\mathbb{R}^n.$ Let $\{\vec{b}_{1}, ... , \vec{b}_{n}\}$ be a basis for $\mathbb{R}^n.$ If $S(\vec{b}_{1}) = T(\vec{b}_{1})$ for all $i = 1, 2, ... n$ then $S = T.$
+\end{corollary}
+
+\begin{corollary}[Very Important Corollary]
+Let $T: \mathbb{R}^n \rightarrow \mathbb{R}^m$ be a linear transformation. Let $\boldsymbol{A}$ be the matrix whose $i$th column is $T(\vec{e}_{i})$; i.e.
+
+\[
+\boldsymbol{A} =
+  \begin{bmatrix}
+    | & | & \cdots & | \\
+    T(\vec{e}_{1}) & T(\vec{e}_{2}) & \cdots & T(\vec{e}_{n}) \\
+    | & | & \cdots & | 
+  \end{bmatrix} 
+\]
+
+which is a m x n matrix. Then, for any $\vec{v} \in \mathbb{R}^n, T(\vec{v}) = \boldsymbol{A}\vec{v}.$ Note that all linear transformations are matrix transformations.
+\end{corollary}
+
+The matrix $\boldsymbol{A}$ represented above is called the $\textbf{standard matrix representation of $\boldsymbol{A}$}.$
+
+\begin{definition}[Important Relations between a Linear Transformation $\boldsymbol{T}$ and the Standard Matrix Representation of $\boldsymbol{A}$] \leavevmode \\
+(1) The \textbf{column space} of $\boldsymbol{A}$, $\{\boldsymbol{A}\vec{x} \mid \vec{x} \in \mathbb{R}^n \},$ is the \textbf{range} of $\boldsymbol{T}$, $\{\boldsymbol{T(x)} \mid \vec{x} \in \mathbb{R}^n \}.$ \\
+(2) The \textbf{nullspace} of $\boldsymbol{A}$, $\{\vec{x} \in \mathbb{R}^n \mid \boldsymbol{A}\vec{x} = \vec{0}\},$ is the \textbf{kernel} of $\boldsymbol{T},$ $\{\vec{x} \in \mathbb{R}^n \mid \boldsymbol{T(\vec{x})} = \vec{0}\}.$ \\
+(3) The \textbf{rank} of $\boldsymbol{A}$ is the \textbf{rank} of $\boldsymbol{T}.$ \\
+(4) The \textbf{nullity} of $\boldsymbol{A}$ is the \textbf{nullity} of $\boldsymbol{T}.$ \\
+\end{definition}
+
+\begin{theorem} For $\boldsymbol{T}: \mathbb{R}^n \rightarrow \mathbb{R}^m,$ then $rank(\boldsymbol{T}) + nullity(\boldsymbol{T}) = n.$ 
+
+\end{theorem}\newpage
+
+\textbf{\underline{Compositions of Linear Transformations}} \\
+\begin{definition}
+For $T: \mathbb{R}^n \rightarrow \mathbb{R}^m, S: \mathbb{R}^m \rightarrow \mathbb{R}^k,$ the \textbf{composition} of $S$ and $T$ is
+$ S\circ T : \mathbb{R}^n \rightarrow \mathbb{R}^k$ is defined as $(S \circ T)\vec{x} = S(T(\vec{x})).$
+\end{definition}
+
+\begin{definition}
+If the standard matrix representation $\boldsymbol{A}$ of a linear transformation $T$ is invertible, and $S$ is the linear transformation associated with $\boldsymbol{A}^{-1},$ $S\circ T = T\circ S =$ \textbf{identity function}. \\
+
+We say that $T$ has an inverse function $S$ and denote $S$ as $T^{-1}.$ T is an \textbf{invertible linear transformation} (which corresponds to invertible matrices).
+\end{definition}
+
+\begin{theorem}
+Let $\textbf{T}: \mathbb{R}^n \rightarrow \mathbb{R}^m$ be a linear transformation. Then \\ 
+(1) If $\textbf{W}$ is a subspace of $\mathbb{R}^n,$ then $\textbf{T[w]}$ is a subspace of $\mathbb{R}^n.$ \\ 
+(2) If $\textbf{u}$ is a subspace of $\mathbb{R}^m,$ then $\textbf{T}^{-1}[\textbf{u}]$ is a subspace of $\mathbb{R}^n.$
+\end{theorem}
+
+\newpage
+
+\section{Chapter 3: Vector Spaces}
+\underline{\textbf{Preliminary Definitions and Properties of Vector Spaces}}
+
+\begin{definition}
+Let $\textbf{V}$ be a set of objects (called vectors) that is closed under addition and scalar multiplication. We say that $\boldsymbol{V}$ is a \textbf{vector space} if the following $8$ properties hod for all $\vec{u}, \vec{v}, \vec{w} \in \boldsymbol{V}$ and scalars $r, s$: \\
+
+(A1, Associativity of +): ($\vec{u}$ + $\vec{v}) + \vec{w} = \vec{u} + (\vec{v} + \vec{w})$ \\
+(A2, Commutativity of +): $\vec{u} + \vec{v} = \vec{v} + \vec{u}$ \\
+(A3, Additive Identity): $\exists \vec{z} \in \boldsymbol{V}$ such that $\vec{z} + \vec{v} = \vec{v}$ \\
+(A4, Additive Inverse): For all $\vec{v}, \exists \vec{w} \in \boldsymbol{V}$ such that $\vec{v} + \vec{w} = \vec{0}.$ \\ \\
+
+(S1, Distributivity): $r(\vec{v} + \vec{w}) = r\vec{v} + r\vec{w}$ \\
+(S2, Distributivity): $(r+s)\vec{v} = r\vec{v} + s\vec{v}$ \\
+(S3, Associativity): $r(s\vec{v}) = (rs)\vec{v}$\\
+(S4, Preservation of Scalar): $1\vec{v} = \vec{v}$
+\end{definition}
+
+\begin{theorem}
+Let $\boldsymbol{V}$ be a vector space. The following are true: \\
+(1, Uniqueness of $\vec{0}$) If $\vec{x} + \vec{v} = \vec{v}$ for all $\vec{v} \in \boldsymbol{V},$ then $\vec{x} = 0.$ \\
+(2, Uniqueness of Additive Inverse) For every $\vec{v} \in \boldsymbol{V},$ there is only one vector $\vec{x}$ with $\vec{x} + \vec{v} = 0.$ \\
+(3, Cancellation Property) If $\vec{u} + \vec{v} = \vec{u} + \vec{w},$ then $\vec{v} = \vec{w}$. \\
+(4) $0\vec{v} = \vec{0}$ for any $\vec{v} \in \boldsymbol{V}.$ \\
+(5) $r\vec{0} = \vec{0}$ for any $r \in \mathbb{R}$ \\
+(6) $(-1)\vec{v}$ is the additive inverse of $\vec{v}, -\vec{v}$.  \\ \\
+\end{theorem}
+
+\underline{\textbf{Basic Concepts of Vector Spaces}}
+\begin{definition}
+Let $\boldsymbol{V}$ be a vector space with vectors $\vec{v}_{1}, ... \vec{v}_{k}.$ A \textbf{linear combination} of these vectors is any vector of the form $\vec{v} = r_1\vec{v}_{1} + ... + r_k\vec{v}_{k}$ for scalars $r_1, r_2, ... r_k.$
+\end{definition}
+
+\begin{definition}
+Let $\boldsymbol{V}$ be a vector space and let $\boldsymbol{X} \subseteq \boldsymbol{V}.$ The \textbf{span of $\boldsymbol{X}$} (denoted sp($\boldsymbol{X}$)) is the set of all finite linear combinations of elements of $\boldsymbol{X}.$ If $\boldsymbol{W} = sp(\boldsymbol{X}),$ we say that $\boldsymbol{X}$ generates $\boldsymbol{W}.$
+\end{definition}
+
+\begin{definition}
+If a vector space $\boldsymbol{V} = sp(\boldsymbol{X})$ for some finite subset $\boldsymbol{X},$ then $\boldsymbol{V}$ is \textbf{finitely generated}. Otherwise if no finite subset exists, $\boldsymbol{V}$ is \textbf{infinitely generated}.
+\end{definition}
+
+\begin{definition}
+A subset $\boldsymbol{W}$ of vector space $\boldsymbol{V}$ is a $\textbf{subspace}$ of $\boldsymbol{V}$ if, using the same definitions of addition and scalar multiplication as $\boldsymbol{V}, \boldsymbol{W}$ is itself a vector space. All vector spaces $\boldsymbol{V}$ have $\{\vec{0}\}$ and $\boldsymbol{V}$ as subspaces. $\{\vec{0}\}$ is the $\textbf{trivial subspace}.$ All other subspaces of $\boldsymbol{V}$ are called \textbf{proper subspaces}.
+\end{definition}
+
+\begin{theorem}
+A nonempty subset $\boldsymbol{W}$ of a vector space $\boldsymbol{V}$ is a subspace of $\boldsymbol{V}$ if it is closed under addition/scalar multiplication. 
+\end{theorem}
+
+\begin{corollary}
+Let $\boldsymbol{V}$ be a vector space and suppose $\boldsymbol{X}$ is a subset of $\boldsymbol{V}.$ Then $sp(\boldsymbol{X})$ is a subspace of $\boldsymbol{V}.$
+\end{corollary}
+
+\begin{definition}
+Let $\boldsymbol{V}$ be a vector space and suppose $\boldsymbol{X}$ is a subset of $\boldsymbol{V}.$ A \textbf{dependence relation} in $\boldsymbol{X}$ is an equation $r_1\vec{v}_{1} + r_2\vec{v}_{2} + ... + r_k\vec{v}_{k} = 0$ where $\{\vec{v}_{i}\} \subseteq \boldsymbol{X}$ and some $r_i \neq 0.$ If $\exists$ a dependence relation, then $\boldsymbol{X}$ is \textbf{linearly dependent}; if $\nexists$ dependence relation, then $\boldsymbol{X}$ is \textbf{linearly independent}.
+\end{definition}
+
+\begin{definition}
+A \textbf{basis for a vector space $\boldsymbol{V}$} is a set $\boldsymbol{X}$ such that (1) $sp(\boldsymbol{X}) = \boldsymbol{V}$ and (2) $\boldsymbol{X}$ is linearly independent.
+\end{definition}
+
+\begin{theorem}
+A subset $\boldsymbol{X}$ of a vector space $\boldsymbol{V}$ is a \textbf{basis for $\boldsymbol{V}$} iff every element in $\boldsymbol{V}$ can be uniquely expressed as a linear combination of elements of $\boldsymbol{X}.$ 
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{V}$ be a vector space. Let $\{\vec{w}_{1}, ... \vec{w}_{k}\} \subseteq \boldsymbol{V}$ with $sp(\vec{w}_{1}, ... \vec{w}_{k}) = \boldsymbol{V}.$ Let $\{\vec{v}_{1}, ... \vec{v}_{m}\}$ be a linearly independent set. Then $k \geq m.$
+\end{theorem}
+
+\begin{corollary}
+Any two bases of a vector space $\boldsymbol{V}$ have the same size/dimension.
+\end{corollary}
+
+\begin{definition}
+The \textbf{dimension} of a vector space $\boldsymbol{V}$ is the number of elements in the bases.
+\end{definition}
+
+\begin{theorem}
+Any linearly independent subset of vector space $\boldsymbol{V}$ can be enlarged to create a basis for $\boldsymbol{V};$ any spanning set of $\boldsymbol{V}$ can be also be trimmed to create a basis.
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{V}$ be a vector space of dimension k. Then \\
+(1) any linearly independent subset of $\boldsymbol{V}$ with $k$ elements is a basis for $\boldsymbol{V}.$ \\
+(2) any subset of $k$ elements of $\boldsymbol{V}$ that spans $\boldsymbol{V}$ is a basis for $\boldsymbol{V}$.
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{V}$ be finitely generated (i.e. $\exists$ finite set $\boldsymbol{X}$ with $sp(\boldsymbol{X}) = \boldsymbol{V}).$ Then $\boldsymbol{V}$ has a basis.
+\end{theorem}
+
+\begin{theorem}
+Every vector space has a basis.
+\end{theorem}
+\begin{theorem}[Axiom of Choice]
+Given a collection of disjoint nonempty sets, there is a set (called the "choice set") that contains exactly 1 element from each set in the collection.
+\end{theorem}
+
+\begin{theorem}[Banach-Tarski Paradox]
+Given a solid ball, there is a way to cut it into a finite number of pieces and reassemble into $2$ solid balls of the same size.
+
+\end{theorem}
+
+\newpage
+
+
+\underline{\textbf{Coordinization of Vector Spaces}}
+\begin{definition}
+Let $\boldsymbol{V}$ be a finite dimensional vector space. An \textbf{ordered basis} of $\boldsymbol{V}$ is a basis of $\boldsymbol{V}$ with a  fixed order, denoted by $(\vec{b}_{1}, \vec{b}_{2}, ..., \vec{b}_{n}).$ \\
+\underline{Ex}: The \textbf{standard ordered basis} of $\mathbb{R}^n: (\vec{e}_{1}, ..., \vec{e}_{n)}.$
+\end{definition}
+
+\begin{definition}[Coordinate Vector relative to an Ordered Basis]
+Let $\boldsymbol{V}$ be a vector space with ordered basis $\boldsymbol{B} = (\vec{b}_{1}, ... \vec{b}_{n}).$ Let $\vec{v} \in \boldsymbol{V}.$ The \textbf{coordinate vector of $\vec{v}$ relative to $\boldsymbol{V}$} is the vector $\vec{v}_{\boldsymbol{B}} = [r_1, ... r_n] \in \mathbb{R}^n,$ where $\vec{v} = r_1\vec{b}_{1} + r_2\vec{b}_{2} + ... + r_n\vec{b}_{n}.$
+\end{definition}
+
+\begin{definition}
+We define a \textbf{map} $\boldsymbol{T}_{\boldsymbol{B}}: \boldsymbol{V} \rightarrow \mathbb{R}^n$ with $\boldsymbol{T}_{\boldsymbol{B}}(\vec{v}) = \vec{v}_{\boldsymbol{B}}.$ \\
+All the important features of $\boldsymbol{V}$ are preserved by $\boldsymbol{T}_{\boldsymbol{B}}$ (ex. linear independence is preserved).
+\end{definition}
+
+\begin{definition}
+Let $\boldsymbol{V, W}$ be vector spaces. A map $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{W}$ is a \textbf{linear transformation} if \\
+(1) For all $\vec{u}, \vec{v} \in \boldsymbol{V}, \boldsymbol{T}(\vec{u} + \vec{v}) = \boldsymbol{T}(\vec{u}) + \boldsymbol{T}(\vec{v})$. \\
+(2) For all $\vec{u} \in \boldsymbol{V}, r \in \mathbb{R}, \boldsymbol{T}(r\vec{v}) = r\boldsymbol{T}(\vec{v}).$
+\end{definition}
+
+\begin{theorem}
+Let $\boldsymbol{B}: (\vec{b}_1, ... \vec{b}_n)$ be an ordered basis for a vector space $\boldsymbol{V}.$ Then the map $\boldsymbol{T}_{\boldsymbol{B}}: \boldsymbol{V} \rightarrow \mathbb{R}^n$ is a linear transformation. \\
+\end{theorem}
+
+\textbf{\underline{Lemma 1}}: $\boldsymbol{T}(\vec{0}_{V}) = \boldsymbol{T}(0 *\vec{0}_{V}) = 0\boldsymbol{T}(\vec{0}_{V}) = \vec{0}_{W},$ for $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{W},$ a linear transformation. \\
+
+\textbf{\underline{Lemma 2}}: $ker(\boldsymbol{T}_{\boldsymbol{B}}) = \{\vec{0}_{V}\}$ (i.e. if $\boldsymbol{T}_{\boldsymbol{B}}(\vec{x}) = \vec{0}$ then $\vec{x} = \vec{0}_{V}).$ \\
+
+\begin{theorem}
+Let $\boldsymbol{V}$ be a vector space with ordered basis $\boldsymbol{B}$ with $n$ elements. Then $\{\vec{v}_1, ..., \vec{v}_k\}$ linearly independent in $\boldsymbol{V} \iff \{\boldsymbol{T}_{\boldsymbol{B}}(\vec{v}), ... \boldsymbol{T}_{\boldsymbol{B}}(\vec{v}_k)\}$ linearly independent in $\mathbb{R}^n.$ \\ \\
+\end{theorem}
+
+\underline{\textbf{Linear Transformations for Vector Space}}
+\begin{definition}
+Let $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{W}$ be a linear transformation of vector spaces $\boldsymbol{V, W}.$ The \textbf{kernel of $\boldsymbol{T}$} is the set of vectors $\vec{v} \in \boldsymbol{V}$ that map to $\vec{0}_{\boldsymbol{W}},$ i.e. $ker(\boldsymbol{T}) = \boldsymbol{T}^{-1}[\{\vec{0}_{\boldsymbol{W}}\}] = \{\vec{v} \in \boldsymbol{V} \mid \boldsymbol{T}(\vec{v}) = \vec{0}_{\boldsymbol{W}} \}.$
+\end{definition}
+
+\begin{theorem}
+$\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{W},$ a linear transformation of vector spaces. Then: \\
+(1: Zero maps to zero) $\boldsymbol{T}(\vec{0}_{\boldsymbol{V}}) = \vec{0}_{\boldsymbol{W}}$ \\
+(2: Subspaces map to subspaces) If $\boldsymbol{U}$ is a subspace of $\boldsymbol{V}$, then $\boldsymbol{T}[\boldsymbol{U}]$ is a subspace of $\boldsymbol{W}.$ \\
+(3: Inverse Images of Subspaces are Subspaces) If $\boldsymbol{X}$ is a subspace of $\boldsymbol{W},$ then $\boldsymbol{T}^{-1}[\boldsymbol{X}]$ is a subspace of $\boldsymbol{V}.$ \\
+(4: Linear Transformations are uniquely determined by what they do to a basis): Let $\boldsymbol{B}$ be a basis for a vector space $\boldsymbol{V}.$ If $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{V'}$ and $\boldsymbol{S}: \boldsymbol{V} \rightarrow \boldsymbol{V'}$ are linear transformations such that $\boldsymbol{T}(\vec{b}) = \boldsymbol{S}(\vec{b})$ for all $\vec{b} \in \boldsymbol{B},$ then $\boldsymbol{S} = \boldsymbol{T}.$
+\end{theorem}
+
+\begin{definition}[Injective Function]
+$f: \boldsymbol{X} \rightarrow \boldsymbol{Y}$ is \textbf{one-to-one} (aka \textbf{injective}) if $f(x_1) =  f(x_2) \implies x_1 = x_2$ i.e. different elements must map to different places. 
+\end{definition}
+
+\begin{definition}[Surjective Function]
+$f: \boldsymbol{X} \rightarrow \boldsymbol{Y}$ is \textbf{onto} (aka \textbf{surjective}) if for all $y \in Y$ there is an $x \in X$ with $f(x) = y$ i.e. $range(f) = Y; range(f)=$ codomain; every element in $Y$ is mapped to.
+\end{definition}
+
+\begin{definition}[Bijective Function]
+$f: \boldsymbol{X} \rightarrow \boldsymbol{Y}$ is \textbf{bijective} (aka a \textbf{bijection}) if it is both one-to-one/onto (or both injective and surjective).
+\end{definition}
+
+\begin{definition}[Invertible Function]
+$f: \boldsymbol{X} \rightarrow \boldsymbol{Y}$ is \textbf{invertible} if there is a function $g: Y \rightarrow X$ with $(g \circ f)(x) = x$ for all $x \in Y$ and $(f \circ g)(y) = y$ for all $y \in Y.$ Denote $y$ by $f^{-1}.$
+\end{definition}
+
+\begin{theorem}
+A function $f: \boldsymbol{X} \rightarrow \boldsymbol{Y}$ is invertible $\iff f$ is bijective. 
+\end{theorem}
+
+\begin{corollary}
+Let $\boldsymbol{T} : \boldsymbol{V} \rightarrow \boldsymbol{W},$ a linear transformation of vector spaces. Then $T$ bijective $\iff$ there is a linear transformation $\boldsymbol{S}$ such that $\boldsymbol{S} = \boldsymbol{T}^{-1}$ i.e. if $\boldsymbol{T}$ is invertible, then $\boldsymbol{T}^{-1}$ is a linear transformation.
+\end{corollary}
+
+\begin{definition}
+A function $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{W}$ between vector spaces $V$ and $W$ is an \textbf{isomorphism} iff $\boldsymbol{T}$ is a linear transformation and a bijection.
+\end{definition}
+
+\begin{definition}
+$\boldsymbol{V}$ and $\boldsymbol{W}$ are \textbf{isomorphic vector spaces} if there is an isomorphism $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{W}.$ Write $\boldsymbol{V} \cong \boldsymbol{W} //$ isomorphic means "essentially the same"
+\end{definition}
+
+\begin{corollary}
+A linear transformation $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{W}$ is an isomorphism iff $\boldsymbol{T}$ is invertible.
+\end{corollary}
+
+\begin{theorem}
+Let $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{W}$ be a linear transformation. $\boldsymbol{T}$ is one-to-one $\iff ker(\boldsymbol{T}) = \{\vec{0}\}.$
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{V}$ be a vector space of dimension $n$ and let $\boldsymbol{B}$ be an ordered basis for $\boldsymbol{V}.$ The coordinization map $\boldsymbol{T}_{\boldsymbol{B}} : \boldsymbol{V} \rightarrow \mathbb{R}^n$ is defined by $\boldsymbol{T}_{\boldsymbol{B}}(\vec{v}) = \vec{v}_{\boldsymbol{B}}$ is an isomorphism.
+\end{theorem}
+
+\begin{corollary}
+If $\dim(\boldsymbol{V}) = n, V \cong \mathbb{R}^n$ (isomorphic to $\mathbb{R}^n$).
+\end{corollary}
+
+\begin{definition}
+Let $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{V'}$ be a linear transformation, $\boldsymbol{B} = (\vec{b}_1, ... \vec{b}_n)$ be an ordered basis of $\boldsymbol{V},$ and $\boldsymbol{B'}$ be an ordered basis of $\boldsymbol{V'}.$ Then the matrix $\boldsymbol{A}$ given by 
+\[
+\boldsymbol{A} =
+  \begin{bmatrix}
+    | & | & \cdots & | \\
+    \boldsymbol{T}(\vec{b}_{1})_{\boldsymbol{B'}} & \boldsymbol{T}(\vec{b}_{2})_{\boldsymbol{B'}} & \cdots & \boldsymbol{T}(\vec{b}_{n})_{\boldsymbol{B'}} \\
+    | & | & \cdots & | 
+  \end{bmatrix} 
+\]
+
+is called the \textbf{matrix representation of $\boldsymbol{T}$ relative to $\boldsymbol{B, B'}$}.
+
+\end{definition}
+
+\begin{theorem}
+Let $\boldsymbol{T} : \boldsymbol{V} \rightarrow \boldsymbol{V'}$ be a linear transformation, $\boldsymbol{B}$ be an ordered basis of $\boldsymbol{B},$  $\boldsymbol{B'}$ be an ordered basis of $\boldsymbol{V'},$ and $\boldsymbol{A}$ be the matrix representation of $\boldsymbol{T}$ with respect to $\boldsymbol{B, B'}.$ Then $\boldsymbol{T}$ is invertible $\iff \boldsymbol{A}$ is invertible.
+\end{theorem}
+
+\newpage
+\underline{\textbf{Inner Product Spaces}}
+An \textbf{inner product} is a generalization of the dot product. 
+\begin{definition}
+Let $\boldsymbol{V}$ be a vector space with scalars from $\mathbb{R}.$ An \textbf{inner product on $\boldsymbol{V}$} is a map from an ordered pair of vectors $\vec{v}, \vec{w}$ to $\mathbb{R},$ denoted $\langle \vec{v}, \vec{w} \rangle,$ such that for all $\vec{u}, \vec{v}, \vec{w} \in \boldsymbol{V}$ and $r \in \mathbb{R},$ \\
+(1, Symmetry) $\langle \vec{v}, \vec{w} \rangle  = \langle \vec{w}, \vec{v} \rangle $ \\
+(2, Additivity/Distributivity) $\langle \vec{u}, \vec{v} + \vec{w} \rangle  = \langle \vec{u}, \vec{v} \rangle  + \langle \vec{u}, \vec{w} \rangle $ \\
+(3, Homogeneity) $r\langle \vec{v}, \vec{w} \rangle  = \langle r\vec{v}, \vec{w} \rangle  = \langle \vec{v}, r\vec{w} \rangle $ \\
+(4, Positivity) $\langle \vec{v}, \vec{v} \rangle  \geq 0,$ and $\langle \vec{v}, \vec{v} \rangle  = 0 \iff \vec{v} = \vec{0}$
+\end{definition}
+
+\begin{definition}
+A vector space with scalars from $\mathbb{R}$ that has an inner product is called \textbf{a (real) inner product space}.
+\end{definition}
+
+\begin{definition}
+Let $\boldsymbol{V}$ be an inner product space. We define\\
+the \textbf{norm} (aka \textbf{length}) of $\vec{v} \in \boldsymbol{V}$ as $\norm{\vec{v}} = \sqrt{ \langle \vec{v}, \vec{v} \rangle}$ \\
+the \textbf{distance} between two vectors $\vec{x}, \vec{y}$ in $\boldsymbol{V}$ as $\norm{(\vec{x} - \vec{y})}$ \\
+the \textbf{angle} between $\vec{x}, \vec{y}$ in $\boldsymbol{V}$ as $\arccos{\frac{\langle \vec{x}, \vec{y} \rangle}{\norm{\vec{x}}\norm{\vec{y}}}}.$
+\end{definition}
+
+\begin{theorem}
+Let $\boldsymbol{V}$ be an inner product space. Then $\vec{x} \perp \vec{y} \iff \langle \vec{x}, \vec{y} \rangle = 0.$ \\
+
+Additionally, theorems proved about the dot product apply to inner product spaces.
+\end{theorem}
+
+\newpage
+
+\section{Chapter 4: Determinants}
+\textbf{\underline{Preliminary Definitions}:}
+Every n x n matrix $\boldsymbol{A}$ has a number associated with it called its \textbf{determinant}, denoted $\det(\boldsymbol{A}).$ We define the $\det(\boldsymbol{A})$ recursively, i.e. the def of $\det(\boldsymbol{A})$ will involve determinants of smaller matrices. \\
+
+\begin{definition}
+Let $\boldsymbol{A}= [a_{1, 1}]$. a 1 x 1 matrix. $\det(\boldsymbol{A}) = a_{1, 1}.$
+\end{definition}
+
+\begin{definition}
+Let $\boldsymbol{A}$ be a n x n matrix. The matrix obtained by deleting the $i$th row and $j$th column of $\boldsymbol{A}$ is called a \textbf{minor} of $\boldsymbol{A}$ and is denoted $\boldsymbol{A}_{ij}.$
+\end{definition}
+
+\begin{definition}
+Let $\boldsymbol{A} = [a_{ij}]$ be an $nxn$ matrix. The \textbf{cofactor} of $a_{ij}$ is $(-1)^{i+j}\det(\boldsymbol{A}_{ij})$ and is denoted $a'_{ij}.$
+\end{definition}
+
+\begin{definition}
+Let $\boldsymbol{A} = [a_{ij}]$ be a $nxn$ matrix, with $n > 1.$ The \textbf{determinant} of $\boldsymbol{A},$ denoted $\det(\boldsymbol{A}),$ is
+
+\[ \sum_{j=1}^{n} a_{1j}a'_{1j} + ... + a_{1n}a'_{1n} = \sum_{j=1}^{n} (-1)^{i+j}a_{ij}\det(\boldsymbol{A}_{ij}) \]
+
+\textbf{Sarrus' Rule/Mnemonic} can also be used to find determinants of $3 x 3$ matrices.
+\end{definition}
+
+\begin{theorem}[General Expansion by Minors]
+Let $\boldsymbol{A} \in \boldsymbol{M}_n$ and $r, s \in \{1, 2, ... , n\}.$ Then $\det(\boldsymbol{A}) = a_{r1}a'_{r1} + a_{r2}a'_{r2} + ... + a_{rn}a'_{rn} = a_{1s}a'_{1s} + ... + a_{ns}a'_{ns},$ \\ i.e. the determinant of $\boldsymbol{A}$ is equal to an expansion along row $r$ or column $s$.
+\end{theorem}
+
+\begin{corollary}
+$\boldsymbol{A} \in \boldsymbol{M}_n.$ If $\boldsymbol{A}$ has an entire row/column with only $0$ entries, $\det(\boldsymbol{A}) = 0.$
+\end{corollary}
+
+\begin{definition}
+Let $\boldsymbol{A} = [a_{ij}] \in \boldsymbol{M}_n.$ We say that $\boldsymbol{A}$ is \textbf{upper triangular} if $a_{ij} = 0$ when $i > j.$ We say that $\boldsymbol{A}$ is \textbf{lower triangular} if $a_{ij} = 0$ when $i < j.$ 
+\end{definition}
+
+\begin{theorem}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n$ be upper/lower triangular. Then 
+\[\det(\boldsymbol{A}) = \prod_{i=1}^{n} a_{ii} = a_{11}a_{22}...a_{nn} \]
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n.$ Then $\det(\boldsymbol{A}) = \det(\boldsymbol{A}^{T}).$ \\
+\end{theorem}
+
+\underline{\textbf{What effect does performing an elementary row operation have on the determinant?}}
+\begin{theorem}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n.$ Let $\boldsymbol{B}$ be the matrix obtained by switching 2 rows of $\boldsymbol{A}.$ Then $\det(\boldsymbol{B}) = -\det(\boldsymbol{A}).$
+\end{theorem}
+
+\begin{corollary}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n$ have two equal rows. Then $\det(\boldsymbol{A}) = 0.$
+\end{corollary}
+
+\begin{theorem}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n.$ Let $\boldsymbol{B}$ be the matrix obtained by multiplying row $k$ of $\boldsymbol{A}$ by $r$. Then $\det(\boldsymbol{B}) = r(\det(\boldsymbol{A})).$
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n.$ Let $\boldsymbol{B}$ be the matrix obtained by performing the row operation $R_j \rightarrow r*R_i + R_j.$ Then $\det(\boldsymbol{B}) = \det(\boldsymbol{A}).$
+\end{theorem}
+
+\begin{theorem}
+$\boldsymbol{A}$ invertible $\iff \det(\boldsymbol{A}) \neq 0$
+\end{theorem}
+
+\textbf{\underline{(In Summary): Effects of 3 "flavors" of elementary row operations}} \\
+(1) Switching 2 rows $\rightarrow$ multiply by $-1$ \\
+(2) Multiplying a row by a nonzero scalar $r$ $\rightarrow$ multiply by $r$ \\
+(3) Adding a multiple of one row to another $\rightarrow$ no effect \\ \\ \\
+
+\underline{\textbf{Determinants and their Geometry}} \\
+\begin{itemize}
+  \item \textbf{Area of a parallelogram} determined by $[a, b]$ and $[c, d]$ is
+  \[\boldsymbol{A} = \abs{\det \begin{bmatrix}
+    a & b \\
+    c & d
+  \end{bmatrix}} = ad - bc \]
+  \item \textbf{Volume of a parallelepiped} determined by $\vec{a} = [a_1, a_2, a_3], \vec{b} = [b_1, b_2, b_3],$ and $\vec{c} = [c_1, c_2, c_3]$ is
+  
+    \[\boldsymbol{V} = \abs{\det \begin{bmatrix}
+    a_1 & a_2 & a_3\\
+    b_1 & b_2 & b_3\\
+    c_1 & c_2 & c_3
+  \end{bmatrix}} \]
+  
+  \item \textbf{Volume of a n-box} determined by $\vec{a}_1, ... \vec{a}_n$ with $\vec{a}_i = [a_{i1}, a_{i2}, ... a_{in}]$ is
+  
+    \[\boldsymbol{V} = \abs{\det \begin{bmatrix}
+    a_{11} & a_{12} & \dots & a_{1n}\\
+    \vdots & \vdots & \cdots & \vdots \\
+    a_{n1} & a_{n2} & \dots & a_{nn}
+  \end{bmatrix}} \]
+  
+  \item \textbf{Cross Product} of $\vec{a} = [a_1, a_2, a_3]$ and $\vec{b} = [b_1, b_2, b_3]:$ 
+  
+  \[\vec{a} \times \vec{b} = \det\begin{bmatrix}
+  \vec{i} & \vec{j} & \vec{k} \\
+  a_1 & a_2 & a_3 \\
+  b_1 & b_2 & b_3
+  \end{bmatrix} = \det\begin{bmatrix}
+  a_2 & a_3 \\
+  b_2 & b_3
+  \end{bmatrix}\vec{i} - \det\begin{bmatrix}
+  a_1 & a_3 \\
+  b_1 & b_3
+  \end{bmatrix}\vec{j} + \det\begin{bmatrix}
+  a_1 & a_2 \\
+  b_1 & b_2
+  \end{bmatrix}\vec{k}\]
+  \[
+    = \big \|\vec{a}  \big \| \big \| \vec{b} \big \| \sin(\theta) \vec{n}
+  \]
+  
+  \item \textbf{Area of parallelogram} denoted by $\vec{a}, \vec{b} \in \mathbb{R}^3$ is $\boldsymbol{A} = \norm{\vec{a} \times \vec{b}}.$\\
+
+\end{itemize}
+
+\underline{Notes on Cross Product}
+\begin{itemize}
+    \item $\vec{a} \times \vec{b} = -(\vec{b} \times \vec{a})$
+    
+    \item $(\vec{a} \times \vec{b}) \times \vec{c} \neq \vec{a} \times (\vec{b} \times \vec{c})$
+    
+    \item $\mathbb{R}^3$ under cross product forms a structure called a \textbf{Lie Algebra}
+\end{itemize}
+
+\begin{theorem}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n,$ then $\det(\boldsymbol{A}) = \det(\boldsymbol{A}^{T}).$
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n, n \geq 2$. Let $\boldsymbol{B}$ be a matrix obtained by swapping $2$ rows of $\boldsymbol{A}.$ Then $\det(\boldsymbol{B}) = -\det(\boldsymbol{A}).$
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{A, B} \in \boldsymbol{M}_n.$ $\det(\boldsymbol{AB}) = \det(\boldsymbol{A})\det(\boldsymbol{B}).$
+\end{theorem}
+
+\begin{lemma}
+Consider $\boldsymbol{EA},$ where $\boldsymbol{E, A} \in \boldsymbol{M}_n$ and $\boldsymbol{E}$ is an elementary matrix. Then $\det(\boldsymbol{EA}) =\det(\boldsymbol{E})\det(\boldsymbol{A})$
+\end{lemma}
+
+\newpage
+\section{Chapter 5: Eigenvalues}
+\textbf{\underline{Preliminary Definitions}}
+
+\begin{definition}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n.$ A scalar $\lambda$ is said to be an \textbf{eigenvalue} of $\boldsymbol{A}$ if there is a nonzero vector $\vec{x}$ such that $\boldsymbol{A}\vec{x} = \lambda\vec{x},$ The vector $\vec{x}$ is called an \textbf{eigenvector} of $\boldsymbol{A}$ that corresponds to $\lambda.$ \\
+
+$\boldsymbol{A}\vec{x} = \lambda \vec{x}$ means $\vec{x}$ gets mapped to a scalar multiple of itself by $\boldsymbol{A}$ // $\vec{x}$ is scaled by a factor of $\lambda$ by $\boldsymbol{A}$ // $\boldsymbol{A}\vec{x}$ is in $span(\vec{X}).$ 
+\end{definition}
+
+\begin{definition}
+If $\lambda$ is an eigenvector of $\boldsymbol{A},$ we call $nullspace(\boldsymbol{A} - \lambda\boldsymbol{I})$ the \textbf{eigenspace} corresponding to $\lambda$, denoted $\boldsymbol{E}_{\lambda}.$
+\end{definition}
+
+\begin{definition}
+If $\boldsymbol{A} \in \boldsymbol{M}_n, \det(\boldsymbol{A} - \lambda\boldsymbol{I})$ is a polynomial of degree $n$ in the variable $\lambda$ called the \textbf{characteristic polynomial} of $\boldsymbol{A}.$
+\end{definition}
+
+\begin{theorem}
+$\boldsymbol{A} \in \boldsymbol{M}_n.$ Suppose $\vec{v}$ is an eigenvector $\boldsymbol{A}$ with eigenvalue $\lambda.$ Then \\
+(1) $\vec{v}$ is an eigenvector of $\boldsymbol{A}^r$ \\
+(2) If $\boldsymbol{A}$ is invertible, $\vec{v}$ is an eigenvector of $\boldsymbol{A}^{-1}$ with eigenvalue $\frac{1}{\lambda}.$ \\
+(3) $\boldsymbol{E}_{\lambda}$ is a subspace of $\mathbb{R}^n.$
+\end{theorem}
+
+\begin{theorem}[Extension of TFAE]
+$\boldsymbol{A}$ invertible $\iff$ no eigenvalue of $\boldsymbol{A}$ is $0$.
+\end{theorem}
+
+\begin{definition}
+Let $\boldsymbol{V}$ be a vector space and $\boldsymbol{T}: \boldsymbol{V} \rightarrow \boldsymbol{V}$ be a linear transformation. A scalar $\lambda$ is said to be an \textbf{eigenvalue} of $\boldsymbol{T}$ if there is a nonzero vector $\vec{v} \in \boldsymbol{V}$ such that $\boldsymbol{T}(\vec{v}) = \lambda \vec{v}.$ $\vec{v}$ is called an \textbf{eigenvector} of $\boldsymbol{T}$ corresponding to $\lambda.$
+\end{definition}
+
+\begin{theorem}
+$\boldsymbol{A} \in \boldsymbol{M}_n.$ Suppose $\lambda_1, \lambda_2, ... \lambda_n$ are distinct eigenvalues of $\boldsymbol{A}.$ Let $\vec{x}_i$ be an eigenvector corresponding to $\lambda_i.$ Then $\{\vec{x}_1, ... , \vec{x}_n\}$ are linearly independent. \\ \\
+\end{theorem}
+
+\underline{\textbf{Diagonalization}}
+\begin{definition}
+Let $\boldsymbol{P, Q} \in \boldsymbol{M}_n$. We say that $\boldsymbol{P}$ is similar to $\boldsymbol{Q}$ if $\exists$ an invertible matrix $\boldsymbol{C} \in \boldsymbol{M}_n$ such that $\boldsymbol{C}^{-1}\boldsymbol{P}\boldsymbol{C} = \boldsymbol{Q}.$ \\
+A note is that if $\boldsymbol{P}$ is similar to $\boldsymbol{Q} \implies \boldsymbol{Q}$ similar to $\boldsymbol{P}.$ Additionally, similar matrices have the same rank, nullity, determinant, and have (potentially) different eigenvalues. 
+\end{definition}
+
+\begin{definition}
+An $nxn$ matrix $\boldsymbol{A}: [a_{ij}]$ is \textbf{diagonal} if $a_{ij} = 0$ whenever $i \neq j$ (the entries not on the diagonal are $0$). 
+\end{definition}
+\begin{definition}
+A matrix $\boldsymbol{A} \in \boldsymbol{M}_n$ is \textbf{diagonalizable} if it is similar to a diagonal matrix; i.e. if $\exists C \in \boldsymbol{M}_n$ such that $\boldsymbol{C}^{-1}\boldsymbol{AC} = \boldsymbol{D}$ where $\boldsymbol{D}$ is diagonal. \\ \\
+\end{definition}
+
+\begin{definition}
+Let $\boldsymbol{A} \in \boldsymbol{M}_n$ and suppose $\hat{\lambda}$ is an eigenvalue of $\boldsymbol{A}.$ The \textbf{algebraic multiplicity} of $\hat{\lambda}$ is the number of factors of the form $(\hat{\lambda} - \lambda)$ that appear in the factorization of the characteristic polynomial of $\boldsymbol{A}, p(\lambda) = det(\boldsymbol{A} - \lambda\boldsymbol{I})$. \\
+
+The \textbf{geometric multiplicity} of $\hat{\lambda}$ is the dimension of the eigenspace $\boldsymbol{E}_{\hat{\lambda}}$ of $\boldsymbol{A}.$
+\end{definition}
+
+\begin{theorem}[Jordan Canonical Form]
+Let $\boldsymbol{A} \in \boldsymbol{M}_n.$ Then $\boldsymbol{A}$ is similar to a matrix $\boldsymbol{J}$ of the form 
+
+\[
+\boldsymbol{J} = \begin{bmatrix}
+   \lambda_{1} & \ast & \cdots & \cdots & 0\\
+    0 & \lambda_{2} & \ast & \cdots & 0 \\
+    \vdots & \vdots & \vdots & \vdots & \vdots \\
+    0 & \cdots & \cdots & \lambda_{n-1} & \ast \\
+    0 & \cdots & \cdots & \cdots & \lambda_{n}
+  \end{bmatrix}
+\]
+
+\centerline{where the $\ast$ entries are $0$ or $1$. $\boldsymbol{J}$ is called the \textbf{Jordan Canonical Form} of $\boldsymbol{A}$.}
+The diagonal entries of $\boldsymbol{J}$ are the eigenvalues of $\boldsymbol{A},$ which appear the same number of times as their algebraic multiplicity.
+\end{theorem}
+
+\begin{lemma}
+Let $\boldsymbol{A} \in \boldsymbol{M}_{n}.$ Let $\lambda_{1} , ...,  \lambda_{n}$ be scalars (in $\mathbb{R}$ or $\mathbb{C}$) and $\vec{v}_1, ... \vec{v}_n$ be vectors in $\mathbb{R}^n$ (or $\mathbb{C}^n).$ Suppose 
+
+\[
+\boldsymbol{C} = \begin{bmatrix}
+    | & | & \cdots & | \\
+    \vec{v}_1 & \vec{v}_2 & \dots & \vec{v}_n \\
+    | & | & \cdots & |  
+  \end{bmatrix},
+\boldsymbol{D} = \begin{bmatrix}
+   \lambda_{1} & \cdots & \cdots & 0\\
+    0 & \lambda_{2} & \cdots & 0 \\
+    \vdots & \vdots & \vdots & \vdots \\
+    0 & \cdots & \cdots & \lambda_{n}
+\end{bmatrix}.
+\] 
+
+Then $\boldsymbol{AC} = \boldsymbol{CD} \iff \vec{v}_1$ is the \textbf{eigenspace} $\boldsymbol{E}_{\lambda_{i}}$ of $\boldsymbol{A},$ (i.e. $\boldsymbol{A}\vec{v}_{i} = \lambda_{i}\vec{v}_i)$.
+\end{lemma}
+
+\begin{theorem}
+$\boldsymbol{A}$ is diagonalizable $\iff \boldsymbol{A}$ has $n$ linearly independent eigenvectors (i.e. there is a basis consisting of eigenvectors $\boldsymbol{A}$, called an \textbf{eigenbasis}).
+\end{theorem}
+
+\begin{corollary}
+Suppose $\boldsymbol{A} \in \boldsymbol{M}_n$ has $n$ distinct eigenvalues. Then $\boldsymbol{A}$ is diagonalizable (the converse is not true).
+\end{corollary}
+
+\begin{theorem}
+If $\boldsymbol{A} \in \boldsymbol{M}_n(\mathbb{R})$ and $\boldsymbol{A}$ is symmetric (i.e. $\boldsymbol{A} = \boldsymbol{A}^{T}),$ then $\boldsymbol{A}$ is diagonalizable. Moreover, there is a diagonalizing matrix $\boldsymbol{C}$ such that \\
+(1) $\boldsymbol{C} \in \boldsymbol{M}_n(\mathbb{R})$ (implying all eigenvalues of $\boldsymbol{A}$ are real numbers). \\
+(2) The columns of $\boldsymbol{C}$ are unit vectors that are orthogonal to each other (columns of $\boldsymbol{C}$ form an \textbf{orthonormal} basis of $\mathbb{R}^n$
+\end{theorem}
+
+\begin{theorem}
+Let $\lambda$ be an eigenvalue of a matrix $\boldsymbol{A} \in \boldsymbol{M}_{n}$. Then the algebraic multiplicity of $\lambda$ is no less than the geometric multiplicity of $\lambda$.
+\end{theorem}
+
+\begin{theorem}
+$\boldsymbol{A}$ is diagonalizable if and only if for every eigenvalue $\lambda$ of $\boldsymbol{A},$ the algebraic multiplicity equals the geometric multiplicity. 
+\end{theorem}
+
+\newpage
+
+\section{Chapter 6: Projections}
+\begin{definition}
+Let $\boldsymbol{W}$ be a subspace of a vector space $\boldsymbol{V}$ with inner product $\langle , \rangle.$ The \textbf{orthogonal complement} of $\boldsymbol{W}$ in $\boldsymbol{V}$ is defined as $\boldsymbol{W^{\perp}} = \{\vec{v} \in \boldsymbol{V} \mid \langle \vec{v}, \vec{w} \rangle = 0, \forall \vec{w} \in \boldsymbol{W}\}$
+\end{definition}
+
+\begin{theorem}
+$\boldsymbol{W}^{\perp}$ is a subspace of $\boldsymbol{V}.$ 
+\end{theorem}
+
+\begin{theorem}
+$\boldsymbol{W} \cap \boldsymbol{W}^{\perp} = \{\vec{0}\}.$
+\end{theorem}
+
+Given a subspace $\boldsymbol{W}$ of $\mathbb{R}^n,$ how do we find $\boldsymbol{W}^{\perp}?$ \\
+(1) Find a spanning set $\vec{v}_1, ... , \vec{v}_k$ for $\boldsymbol{W}$ \\
+(2) Construct a matrix $\boldsymbol{A}$ whose matrix $\boldsymbol{A}$ whose rows are $\vec{v}_1, ... , \vec{v}_k.$ \\
+(3) Solve $\boldsymbol{A}\vec{x} = \vec{0}$ (i.e. find the nullspace of $\boldsymbol{A}$). The nullspace of $\boldsymbol{A}$ is $\boldsymbol{W}^{\perp}$
+
+\begin{theorem}
+Let $\boldsymbol{W}$ be a subspace of $\mathbb{R}^n.$ \\
+(1) $\dim(\boldsymbol{W}^{\perp}) = n - \dim(W)$ \\
+(2) $(\boldsymbol{W}^{\perp})^{\perp} = \boldsymbol{W}$ \\
+(3) Each vector $\vec{v} \in \mathbb{R}^n$ can be uniquely written $\vec{v} = \vec{x} + \vec{y} = \vec{v}_{W} + \vec{v}_{W^{\perp}}$ where $\vec{x} \in \boldsymbol{W}, \vec{y} \in \boldsymbol{W}^{\perp}$
+\end{theorem}
+
+\begin{definition}
+Let $\boldsymbol{W}$ be a subspace of $\mathbb{R}^n$ and let $\vec{v} \in \mathbb{R}^n.$ The \textbf{projection of $\vec{v}$ onto $\boldsymbol{W}$} is the unique vector $\vec{x} \in \boldsymbol{W}$ such that $\vec{v} = \vec{x} + \vec{y}, \vec{y} \in \boldsymbol{W}^{\perp}.$ We denote $\vec{x}$ by $\vec{v}_{\boldsymbol{W}}$ and $\vec{y}$ by $\vec{v}_{\boldsymbol{W}^{\perp}}.$
+\end{definition}
+
+\underline{How do we find $\vec{v}_{W}$?} \\
+(1) Find a basis for $\boldsymbol{W} (\vec{v}_1, ... , \vec{v}_k).$ \\
+(2) Find a basis for $\boldsymbol{W}^{\perp}, (\vec{v}_{k+1}, ... , \vec{v}_n),$ (i.e. find basis for nullspace of $\boldsymbol{A}\vec{x} = \vec{0}, $  where the rows of $\boldsymbol{A}$ are the basis for $\boldsymbol{W}).$ \\
+(3) Coordinatize $\vec{v}$ with respect to $\boldsymbol{B} = (\vec{v}_1, ... , \vec{v}_n),$ (i.e. solve $\boldsymbol{C}\vec{x} = \vec{v},$ where the columns of $\boldsymbol{C}$ are $\vec{v}_1, ... , \vec{v}_n$). \\
+(4) $\vec{v}_{\boldsymbol{W}} = r_1 \vec{v}_1 + ... + r_k\vec{v}_k,$ using $\vec{v}_{\boldsymbol{B}} = [r_1, ... , r_n]$ from step 3 to find $r_i.$
+
+\begin{theorem}
+Let $\boldsymbol{W}$ be a subspace of $\mathbb{R}^n, \vec{v} \in \mathbb{R}^n,$ and $\vec{v}_{\boldsymbol{W}}$ be the projection of $\vec{v}$ onto $\boldsymbol{W}.$ Then $\norm{\vec{v} - \vec{v}_{\boldsymbol{W}}} \leq \norm{\vec{v} - \vec{w}}$ for all $\vec{w} \in \boldsymbol{W}$ (i.e. the distance between $\vec{v}, \vec{v}_{\boldsymbol{W}}$ is less than or equal to the distance between $\vec{v}, \vec{w}).$ \\
+
+Note: this theorem is used when we want to determine a vector in $\boldsymbol{W}$ that best approximates the solutuon to $\boldsymbol{A}\vec{x} = \vec{b}:$ we simply project the solution onto $\boldsymbol{W}.$
+\end{theorem}
+
+\begin{theorem}[Projection Formula]
+Another way to calculate the \textbf{projection of $\vec{v}$ onto $sp(\vec{a})$} is 
+\[
+    \boxed{\vec{v}_{\boldsymbol{W}} = (\frac{\vec{v} \cdot \vec{a}}{\vec{a} \cdot \vec{a}}) \vec{a}}
+\]
+\end{theorem}
+
+\newpage
+
+\underline{\textbf{The Gram-Schmidt Process}}
+\begin{definition}
+A subset of nonzero vectors $\boldsymbol{S}$ in $\boldsymbol{V}$ is \textbf{orthonormal} if 
+
+\[ 
+    \langle \vec{v}, \vec{w} \rangle = 
+    \begin{cases} 
+      1 & \vec{v} = \vec{w} \\
+      0 & \vec{v} \neq \vec{w}
+   \end{cases}
+\]
+
+An \textbf{orthonormal set} is an orthogonal set in which all vectors have length (norm) $1$. \\
+
+\underline{Bonus notation:} $\{\vec{v}_{1}, \vec{v}_{2}, ... \vec{v}_{k}\}$ is orthonormal if $\langle \vec{v}_{i}, \vec{v}_{j} \rangle = \delta_{ij},$ where the \textbf{Kronecker Delta},
+
+\[ 
+    \delta_{ij} = 
+    \begin{cases} 
+      1 & i = j \\
+      0 & i \neq j
+   \end{cases}
+\]
+
+\end{definition}
+
+\begin{theorem}
+Let $\boldsymbol{V}$ be a finite dimensional inner product space. Then every nonzero subspace of $\boldsymbol{V}$ has an orthonormal basis.
+\end{theorem}
+
+\textbf{\underline{Constructive Proof}}: Algorithm called the \textbf{Gram-Schmidt Process} \\
+\begin{itemize}
+\item Start with a subspace $\boldsymbol{W}$ of $\boldsymbol{V}$ and a basis for $\boldsymbol{W} = \{\vec{a}_{1}, ..., \vec{a}_{k}\}$
+\item Use this to construct an orthogonal basis $\{\vec{v}_{1}, ..., \vec{v}_{k}\}$ for $\boldsymbol{W}.$ To do this, use facts about projection from 6.1.
+\item Normalize the vectors to get an orthonormal basis $\{\vec{q}_{1}, ..., \vec{q}_{k}\}$ for $\boldsymbol{W}.$ Note that then $\vec{q}_{i} = \frac{\vec{v}_{i}}{\norm{\vec{v}_{i}}}.$ \\ \\ \\
+\end{itemize}
+
+\underline{\textbf{Orthogonal Matrices}}
+\begin{definition}
+An nxn matrix $\boldsymbol{A}$ is orthogonal if $\boldsymbol{A}^{T}\boldsymbol{A} = \boldsymbol{I}.$ \\
+\underline{Note}: \begin{itemize}
+\item Orthogonal matrices are invertible ($\boldsymbol{A}^{-1} = \boldsymbol{A}^{T}$).
+\item If $\boldsymbol{A}$ is orthogonal, the columns of $\boldsymbol{A}$ are orthogonal vectors of length 1/the columns of $\boldsymbol{A}$ form an orthonormal set.
+\item $\boldsymbol{A}$ is orthogonal $\iff$ columns of $\boldsymbol{A}$ are orthonormal.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}
+$\boldsymbol{A} \in \boldsymbol{M}_{n}.$ The columns of $\boldsymbol{A}$ are orthonormal $\iff$ the rows of $\boldsymbol{A}$ are orthonormal.
+\end{theorem}
+
+\begin{theorem}
+$\boldsymbol{A} \in \boldsymbol{M}_{n}$. TFAE: \\
+(1) $\boldsymbol{A}$ is orthogonal. \\
+(2) The rows of $\boldsymbol{A}$ form an orthonormal basis for $\mathbb{R}^n.$ \\
+(3) The columns of $\boldsymbol{A}$ form an orthnormal basis for $\mathbb{R}^n.$ \\
+(4, Orthogonal matrices preserve the dot product) For all $\vec{x}, \vec{y} \in \mathbb{R}^n, (\boldsymbol{A}\vec{x}) \cdot (\boldsymbol{A}\vec{y}) = \vec{x} \cdot \vec{y}$ 
+\end{theorem}
+
+\begin{corollary}
+For $\boldsymbol{A},$ an orthogonal $n x n$ matrix $\vec{x}, \vec{y} \in \mathbb{R}^{n}.$ Then \\
+(1, Orthogonal matrices preserve length) $\norm{\boldsymbol{A}\vec{x}} = \norm{\vec{x}}$ \\
+(2, Orthogonal matrices preserve angles) The angle between $\vec{x}, \vec{y}$ is the same as the angle between $\boldsymbol{A}\vec{x}, \boldsymbol{A}\vec{y}.$
+\end{corollary}
+
+\begin{definition}
+For $\boldsymbol{V},$ a vector space with a defined inner product. We say a linear transformation $\boldsymbol{T} : \boldsymbol{V} \rightarrow \boldsymbol{V}$ is \textbf{orthogonal} if $\langle \boldsymbol{T}(\vec{v}), \boldsymbol{T}(\vec{w}) \rangle = \langle \vec{v}, \vec{w} \rangle$ for all $\vec{v}, \vec{w} \in \boldsymbol{V}$ (i.e. dot product is preserved).
+\end{definition}
+
+\begin{theorem}[Fundamental Theorem of Real Symmetric Matrices]
+Every $nxn$ real symmetric matrix $\boldsymbol{A}$ can be diagonalized by an $\textbf{orthogonal matrix}$ i.e. not only can we find a basis for $\mathbb{R}^n$ consisting of eigenvectors of $\boldsymbol{A},$ but we can also find an \textbf{orthonormal basis of $\mathbb{R}^n$} consisting of eigenvectors of $\boldsymbol{A}.$
+\end{theorem}
+
+\begin{theorem}
+Let $\boldsymbol{A}, \boldsymbol{B}$ be orthogonal nxn matrices. Then $\boldsymbol{AB}$ is orthogonal (i.e. orthogonal amtrices are \textbf{closed} under multiplication). \\
+
+\end{theorem}
+
+\newpage
+\section{Change of Bases}
+\textbf{\underline{How to translate from any ordered basis to any other ordered basis}} \\
+How do we move from vector expressed in $\boldsymbol{B}: \vec{v}_{\boldsymbol{B}}$ to translation in $\boldsymbol{B': \vec{v}_{\boldsymbol{B}}}?$
+\underline{Claim}: $\vec{v}_{\boldsymbol{B'}} = (\boldsymbol{M}_{\boldsymbol{B'}})^{-1}(\boldsymbol{M}_{\boldsymbol{B}})\vec{v}_{\boldsymbol{B}}$
+
+\begin{definition}
+Let $\boldsymbol{B, B'}$ be ordered bases of $\mathbb{R}^n.$ Let $\boldsymbol{M}_{\boldsymbol{B}}, \boldsymbol{M}_{\boldsymbol{B'}}$ be the n x n matrices whose columns are determined by $\boldsymbol{B}, \boldsymbol{B'},$ respectively. The \textbf{change of basis (aka, change of coordinate) matrix from $\boldsymbol{B}$ to $\boldsymbol{B'}$} is defined as 
+\[
+c_{\boldsymbol{B}, \boldsymbol{B'}} = (\boldsymbol{M}_{\boldsymbol{B'}})^{-1}(\boldsymbol{M}_{\boldsymbol{B}}) \ \text{and} \
+c_{\boldsymbol{B}, \boldsymbol{B'}}\vec{v}_{\boldsymbol{B}} = \vec{v}_{\boldsymbol{B'}}
+\]
+\end{definition}
+
+\end{document}
